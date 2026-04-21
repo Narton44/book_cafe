@@ -422,7 +422,7 @@ class BookStore:
         """
         return self._departments.get_total_copies()
     
-    def _list_departments(self) -> list:
+    def get_all_departments(self) -> list:
         """
         Получение списка всех отделов магазина
         """
