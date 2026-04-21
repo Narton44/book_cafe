@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
-from ready import BookStore
+from models import Department
 
 
 class WindowApp:
@@ -9,7 +9,7 @@ class WindowApp:
         self.root.title("Книжный магазин - Система управления")
         self.root.geometry("900x700")
         
-        self.store = BookStore()
+        self.store = Department()
         self._init_test_data()
         
         self._create_widgets()

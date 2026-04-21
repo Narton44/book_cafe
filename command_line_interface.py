@@ -1,5 +1,5 @@
 # ======================== Консольное приложение ========================
-from ready import BookStore
+from models import BookStore
 
 class ConsoleApp:
     def __init__(self):
@@ -28,7 +28,7 @@ class ConsoleApp:
             choice = input("\nВыберите действие: ")
             
             if choice == '0':
-                print("До свидания!")
+                print("ВсеГо хорошеГо!")
                 break
             elif choice == '1':
                 self._add_department()
@@ -64,7 +64,7 @@ class ConsoleApp:
     
     def _add_department(self):
         name = input("Название отдела: ")
-        if self.store.add_department(name):
+        if self.store.add_department(name): # если существует такой отдел
             print(f"Отдел '{name}' успешно добавлен!")
         else:
             print("Отдел с таким названием уже существует!")
