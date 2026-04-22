@@ -1,21 +1,22 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
-from models import Department
+from models import BookStore
 
 
 class WindowApp:
+
     def __init__(self, root):
         self.root = root
         self.root.title("Книжный магазин - Система управления")
         self.root.geometry("900x700")
         
-        self.store = Department()
+        self.store = BookStore()
         self._init_test_data()
         
         self._create_widgets()
         self._refresh_departments_list()
         self._refresh_stats()
-    
+
     def _init_test_data(self):
         """Инициализация тестовых данных"""
         self.store.add_department("Художественная литература")
@@ -26,9 +27,9 @@ class WindowApp:
         self.store.purchase_book("Художественная литература", "Преступление и наказание", "Ф. Достоевский", 8)
         self.store.purchase_book("Научно-популярная", "Краткая история времени", "С. Хокинг", 5)
         self.store.purchase_book("Детская литература", "Маленький принц", "А. де Сент-Экзюпери", 7)
-    
-    def _create_widgets(self):
-        # Создание вкладок
+
+    def _create_widgets(self):        # Создание вкладок
+
         notebook = ttk.Notebook(self.root)
         notebook.pack(fill='both', expand=True, padx=10, pady=10)
         
@@ -46,9 +47,9 @@ class WindowApp:
         stats_frame = ttk.Frame(notebook)
         notebook.add(stats_frame, text="Статистика")
         self._create_stats_view(stats_frame)
-    
-    def _create_dept_management(self, parent):
-        # Добавление отдела
+
+    def _create_dept_management(self, parent):        # Добавление отдела
+
         add_frame = ttk.LabelFrame(parent, text="Добавить отдел", padding=10)
         add_frame.pack(fill='x', padx=10, pady=5)
         
@@ -74,9 +75,9 @@ class WindowApp:
         
         # Кнопка обновления
         ttk.Button(parent, text="Обновить список", command=self._refresh_departments_list).pack(pady=10)
-    
-    def _create_book_operations(self, parent):
-        # Выбор отдела
+
+    def _create_book_operations(self, parent):        # Выбор отдела
+
         dept_frame = ttk.LabelFrame(parent, text="Выберите отдел", padding=10)
         dept_frame.pack(fill='x', padx=10, pady=5)
         
@@ -128,9 +129,9 @@ class WindowApp:
         self.books_text.pack(fill='both', expand=True)
         
         ttk.Button(view_frame, text="Показать книги", command=self._show_books).pack(pady=5)
-    
-    def _create_stats_view(self, parent):
-        # Статистика по отделам
+
+    def _create_stats_view(self, parent):        # Статистика по отделам
+
         dept_stats_frame = ttk.LabelFrame(parent, text="Статистика по отделам", padding=10)
         dept_stats_frame.pack(fill='both', expand=True, padx=10, pady=5)
         
@@ -149,7 +150,7 @@ class WindowApp:
         self.shop_stats_label.pack(pady=10)
         
         ttk.Button(parent, text="Обновить всю статистику", command=self._refresh_stats).pack(pady=10)
-    
+
     def _refresh_departments_list(self):
         self.depts_listbox.delete(0, tk.END)
         depts = self.store.get_all_departments()
@@ -161,18 +162,19 @@ class WindowApp:
         self.dept_remove_combo['values'] = dept_names
         self.book_dept_combo['values'] = dept_names
         self.dept_stats_combo['values'] = dept_names
-    
+
     def _refresh_book_dept_combo(self):
         depts = self.store.get_all_departments()
         dept_names = [dept.name for dept in depts]
         self.book_dept_combo['values'] = dept_names
-    
+
     def _refresh_stats(self):
-        titles, copies = self.store.get_shop_stats()
+        titles = self.store.get_shop_total_titles()
+        copies = self.store.get_shop_total_copies()
         self.shop_stats_label.config(text=f"Всего наименований: {titles} | Всего экземпляров: {copies}")
         
         self._refresh_departments_list()
-    
+
     def _add_department(self):
         name = self.dept_name_entry.get().strip()
         if name:
@@ -185,7 +187,7 @@ class WindowApp:
                 messagebox.showerror("Ошибка", "Отдел с таким названием уже существует!")
         else:
             messagebox.showwarning("Предупреждение", "Введите название отдела!")
-    
+
     def _remove_department(self):
         name = self.dept_remove_combo.get()
         if name:
@@ -195,7 +197,7 @@ class WindowApp:
                 self._refresh_stats()
             else:
                 messagebox.showerror("Ошибка", "Отдел не найден!")
-    
+
     def _purchase_book(self):
         dept = self.book_dept_combo.get()
         title = self.purchase_title.get().strip()
@@ -222,7 +224,7 @@ class WindowApp:
                 messagebox.showerror("Ошибка", "Не удалось закупить книгу! Возможно, отдел не найден или превышена емкость каталога.")
         else:
             messagebox.showwarning("Предупреждение", "Заполните все поля!")
-    
+
     def _sell_book(self):
         dept = self.book_dept_combo.get()
         title = self.sell_title.get().strip()
@@ -249,7 +251,7 @@ class WindowApp:
                 messagebox.showerror("Ошибка", "Не удалось продать книгу! Возможно, книги нет в наличии или недостаточно экземпляров.")
         else:
             messagebox.showwarning("Предупреждение", "Заполните все поля!")
-    
+
     def _show_books(self):
         dept = self.book_dept_combo.get()
         if dept:
@@ -261,7 +263,7 @@ class WindowApp:
                     self.books_text.insert(tk.END, f"{i}. {book}\n")
             else:
                 self.books_text.insert(1.0, f"В отделе '{dept}' нет книг!")
-    
+
     def _show_dept_stats(self):
         dept = self.dept_stats_combo.get()
         if dept:

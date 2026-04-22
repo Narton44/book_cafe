@@ -39,7 +39,7 @@ class ConsoleApp:
             elif choice == '4':
                 self._sell_book()
             elif choice == '5':
-                self._show_dept_stats()
+                self._show_dept_stats() # Статистика отдела
             elif choice == '6':
                 self._show_shop_stats()
             elif choice == '7':
@@ -98,15 +98,17 @@ class ConsoleApp:
         else:
             print("Ошибка продажи! Возможно, книги нет в наличии или недостаточно экземпляров.")
     
-    def _show_dept_stats(self):
+    def _show_dept_stats(self): # Статистика отдела
         dept = input("Название отдела: ")
-        titles, copies = self.store.get_department_stats(dept)
+        titles = self.store.get_department_titles(dept)
+        copies = self.store.get_department_copies(dept)
         print(f"\nСтатистика отдела '{dept}':")
         print(f"  - Число наименований: {titles}")
         print(f"  - Число экземпляров: {copies}")
     
-    def _show_shop_stats(self):
-        titles, copies = self.store.get_shop_stats()
+    def _show_shop_stats(self): # Статистика магазина
+        titles = self.store.get_shop_total_titles()
+        copies = self.store.get_shop_total_copies()
         print(f"\nСтатистика магазина в целом:")
         print(f"  - Число наименований: {titles}")
         print(f"  - Число экземпляров: {copies}")
