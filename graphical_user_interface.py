@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
-from models import Department
+from models import BookStore
 
 
 class WindowApp:
@@ -9,7 +9,7 @@ class WindowApp:
         self.root.title("Книжный магазин - Система управления")
         self.root.geometry("900x700")
         
-        self.store = Department()
+        self.store = BookStore()
         self._init_test_data()
         
         self._create_widgets()
@@ -168,7 +168,8 @@ class WindowApp:
         self.book_dept_combo['values'] = dept_names
     
     def _refresh_stats(self):
-        titles, copies = self.store.get_shop_stats()
+        titles = self.store.get_shop_total_titles()
+        copies = self.store.get_shop_total_copies()
         self.shop_stats_label.config(text=f"Всего наименований: {titles} | Всего экземпляров: {copies}")
         
         self._refresh_departments_list()

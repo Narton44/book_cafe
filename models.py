@@ -393,6 +393,7 @@ class BookStore:
         return dept.sell_book(title, author, copies)
     
     def get_department_titles(self, dept_name: str) -> int:
+        
         """
         Получение числа наименований книг в указанном отделе
         """
