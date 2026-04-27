@@ -35,15 +35,15 @@ class DepartmentCatalog:
     def is_empty(self) -> bool:
         """Проверка, пуст ли каталог"""
         return self._size == 0
-    
+
     def is_full(self) -> bool:
         """Проверка, заполнен ли каталог"""
         return self._size == self.max_size
-    
+
     def _next_index(self, index: int) -> int:
         """Вычисление следующего индекса с учетом кольцевой структуры"""
         return (index + 1) % self.max_size
-    
+
     def add_book(self, book: Book) -> bool:
         """
         Добавление книги в каталог.
@@ -71,7 +71,7 @@ class DepartmentCatalog:
         self._queue[self._rear] = book
         self._size += 1
         return True
-    
+
     def remove_book(self, title: str, author: str) -> bool:
         """
         Удаление книги из каталога.
@@ -103,7 +103,7 @@ class DepartmentCatalog:
             return True
         
         return False
-    
+
     def find_book(self, title: str, author: str) -> Optional[Book]:
         """
         Поиск книги по названию и автору.
@@ -119,7 +119,7 @@ class DepartmentCatalog:
                 return book
             idx = self._next_index(idx)
         return None
-    
+
     def update_copies(self, title: str, author: str, delta: int) -> bool:
         """
         Обновление количества экземпляров книги (положительное или отрицательное изменение).
@@ -138,7 +138,7 @@ class DepartmentCatalog:
         else:
             book.copies = new_copies
             return True
-    
+
     def get_all_books(self) -> list:
         """Получение всех книг из каталога"""
         if self.is_empty():
@@ -150,11 +150,11 @@ class DepartmentCatalog:
             books.append(self._queue[idx])
             idx = self._next_index(idx)
         return books
-    
+
     def get_total_titles(self) -> int:
         """Получение количества уникальных наименований книг"""
         return self._size
-    
+
     def get_total_copies(self) -> int:
         """Получение суммарного количества экземпляров всех книг"""
         total = 0
@@ -169,12 +169,12 @@ class Department:
     """
     Класс, представляющий тематический отдел книжного магазина
     """
-    
+
     def __init__(self, name: str, max_books: int = 100):
         self.name = name                    # Название отдела (уникальное)
         self.catalog = DepartmentCatalog(max_books)  # Каталог книг отдела
         self.next = None                    # Ссылка на следующий отдел (для списка)
-    
+
     def purchase_book(self, title: str, author: str, copies: int, price: float = 0) -> bool:
         """
         Закупка книги в отдел.
@@ -186,7 +186,7 @@ class Department:
         
         book = Book(title, author, copies, price)
         return self.catalog.add_book(book)
-    
+
     def sell_book(self, title: str, author: str, copies: int) -> bool:
         """
         Продажа книги из отдела.
@@ -196,19 +196,19 @@ class Department:
             return False
         
         return self.catalog.update_copies(title, author, -copies)
-    
+
     def get_total_titles(self) -> int:
         """Получение суммарного числа наименований книг в отделе"""
         return self.catalog.get_total_titles()
-    
+
     def get_total_copies(self) -> int:
         """Получение суммарного числа экземпляров книг в отделе"""
         return self.catalog.get_total_copies()
-    
+
     def get_all_books(self) -> list:
         """Получение списка всех книг в отделе"""
         return self.catalog.get_all_books()
-    
+
     def find_book(self, title: str, author: str) -> Optional[Book]:
         """Поиск книги в отделе"""
         return self.catalog.find_book(title, author)
@@ -218,7 +218,7 @@ class CircularLinkedList:
     """
     Кольцевой однонаправленный список с заголовком для хранения отделов
     """
-    
+
     def __init__(self):
         self._head = None      # Заголовок списка (первый элемент)
         self._size = 0         # Количество отделов в списке
@@ -392,8 +392,7 @@ class BookStore:
             return False
         return dept.sell_book(title, author, copies)
     
-    def get_department_titles(self, dept_name: str) -> int:
-        
+    def get_department_titles(self, dept_name: str) -> int: # Статистика отдела (число изданий)
         """
         Получение числа наименований книг в указанном отделе
         """
@@ -402,7 +401,7 @@ class BookStore:
             return 0
         return dept.get_total_titles()
     
-    def get_department_copies(self, dept_name: str) -> int:
+    def get_department_copies(self, dept_name: str) -> int: # Статистика отдела (число экземпляров)
         """
         Получение числа экземпляров книг в указанном отделе
         """
@@ -411,13 +410,13 @@ class BookStore:
             return 0
         return dept.get_total_copies()
     
-    def get_shop_total_titles(self) -> int:
+    def get_shop_total_titles(self) -> int: # Статистика магазина (число изданий)
         """
         Получение суммарного числа наименований книг по всему магазину
         """
         return self._departments.get_total_titles()
     
-    def get_shop_total_copies(self) -> int:
+    def get_shop_total_copies(self) -> int: # Статистика отдела (число экземпляров)
         """
         Получение суммарного числа экземпляров книг по всему магазину
         """
