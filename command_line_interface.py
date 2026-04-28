@@ -57,26 +57,30 @@ class ConsoleApp:
         
         self.store.purchase_book("Художественная литература", "Война и мир", "Л. Толстой", 10)
         self.store.purchase_book("Художественная литература", "Преступление и наказание", "Ф. Достоевский", 8)
+        self.store.purchase_book("Художественная литература", "Бесы", "Ф. Достоевский", 80)
+        self.store.purchase_book("Художественная литература", "Братья Карамазовы", "Ф. Достоевский", 30)
+        self.store.purchase_book("Художественная литература", "Вий", "Н. Гоголь", 8)
+        self.store.purchase_book("Художественная литература", "Пиковая дама", "А. Пушкин", 50)
         self.store.purchase_book("Научно-популярная", "Краткая история времени", "С. Хокинг", 5)
         self.store.purchase_book("Детская литература", "Маленький принц", "А. де Сент-Экзюпери", 7)
         
         print("\nТестовые данные добавлены!")
     
-    def _add_department(self):
+    def _add_department(self): # добавление отдела
         name = input("Название отдела: ")
         if self.store.add_department(name): # если существует такой отдел
             print(f"Отдел '{name}' успешно добавлен!")
         else:
             print("Отдел с таким названием уже существует!")
     
-    def _remove_department(self):
+    def _remove_department(self): # удаление отдела
         name = input("Название отдела для удаления: ")
         if self.store.remove_department(name):
             print(f"Отдел '{name}' успешно удален!")
         else:
             print("Отдел не найден!")
     
-    def _purchase_book(self):
+    def _purchase_book(self): # закуп книги
         dept = input("Название отдела: ")
         title = input("Название книги: ")
         author = input("Автор: ")
@@ -87,7 +91,7 @@ class ConsoleApp:
         else:
             print("Ошибка закупки! Возможно, отдел не найден или превышена емкость каталога.")
     
-    def _sell_book(self):
+    def _sell_book(self): # продажа книги
         dept = input("Название отдела: ")
         title = input("Название книги: ")
         author = input("Автор: ")
@@ -113,7 +117,7 @@ class ConsoleApp:
         print(f"  - Число наименований: {titles}")
         print(f"  - Число экземпляров: {copies}")
     
-    def _list_departments(self):
+    def _list_departments(self): # список отделов
         depts = self.store.get_all_departments()
         if not depts:
             print("Нет отделов!")
@@ -122,7 +126,7 @@ class ConsoleApp:
             for i, dept in enumerate(depts, 1):
                 print(f"  {i}. {dept.name}")
     
-    def _list_books_in_dept(self):
+    def _list_books_in_dept(self): # список книг отдела
         dept = input("Название отдела: ")
         books = self.store.get_department_books(dept)
         if not books:
